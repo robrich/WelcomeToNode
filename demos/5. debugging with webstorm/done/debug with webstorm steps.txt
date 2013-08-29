@@ -1,0 +1,10 @@
+1. Start Webstorm
+2. Create New Project
+3. Choose template "Node.js Express App", enter other parameters, and click ok
+4. Click configure
+5. Open some js files (like app.js or routes/index.js)
+6. Set breakpoints (click in left margin)
+7. Push the bug icon (next to the green "run" triangle)
+8. In the console tab (bottom-left) look at the port
+9. Visit the url in a browser (e.g. http://localhost:3000/)
+

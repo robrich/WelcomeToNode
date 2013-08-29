@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<title>Welcome to Node.js: a pragmatic introduction</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+		<link rel="stylesheet" href="css/reveal.min.css" />
+		<link rel="stylesheet" href="css/theme/default.css" id="theme" />
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css" />
+
+		<style>
+		table td, table th {
+			margin-top: .3em !important;
+		}
+		table td.right, table th.right {
+			text-align: right;
+			width: 50%;
+		}
+		.reveal table small {
+			vertical-align: inherit;
+		}
+		</style>
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<!-- How to build this file: http://htmlcheats.com/reveal-js/reveal-js-tutorial-reveal-js-for-beginners/ -->
+
+		<div class="reveal">
+			<div style="float:right; width:150px; margin: 1em 1em 0 0; text-align: right;"><p><small>@rob_rich<br />#nodejs</small></p></div>
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h1>Welcome<br />to Node.js:</h1>
+					<h2>a pragmatic introduction</h2>
+					<br />
+					<p>by Rob Richardson</p>
+					<p>
+						<a target="_blank" href="https://twiter.com/rob_rich">@rob_rich</a>
+					</p>
+					<p>
+						<a target="_blank" href="http://robrich.org/">http://robrich.org/</a>
+					</p>
+					<p>August 29, 2013</p>
+				</section>
+
+				<section>
+					<h2>About Me</h2>
+					<img style="float:left;" src="img/Rob_Richardson.jpg" />
+					<p style="margin-left: 220px; text-align:left;">
+						Rob Richardson is principal of Richardson &amp; Sons, LLC, builder of ASP.NET and Node solutions for small- to medium-sized businesses.  Rob has a BFA and MSCIS, and has been building software in .NET and HTML for over a dozen years, and frequently enjoys sharing his passion for software development at user groups and community events.  Follow Rob at <a target="_blank" href="https://twiter.com/rob_rich">@rob_rich</a> or on his blog at <a target="_blank" href="http://robrich.org/">http://robrich.org/</a>.
+					</p>
+				</section>
+
+				<section>
+					<section>
+						<h2>What is Node?</h2>
+						<p>JavaScript runtime</p>
+						<p>Powered by Google V8<br /><small>(the JavaScript engine in Chrome)</small></p>
+						<p>Runs on Windows and *nix</p>
+					</section>
+
+					<section>
+						<h2>What to do with Node?</h2>
+						<p>Very scalable webserver</p>
+						<p>Command-line tools</p>
+					</section>
+
+					<section>
+						<h2>Why Node?</h2>
+						<p>Very, very fast for I/O bound tasks</p>
+						<p>Single language for both browser and server-side</p>
+					</section>
+
+					<section>
+						<h2>Methodologies of Node</h2>
+						<p>Everything is asynchronous, no blocking</p>
+						<p>Standard JavaScript</p>
+						<p>No global scope</p>
+						<p>Community of open-source packages</p>
+					</section>
+				</section>
+
+				<section>
+					<h2>Installing Node</h2>
+					<p>Goto <a target="_blank" href="http://nodejs.org">http://nodejs.org/</a></p>
+					<p>Click Install</p>
+					<p>Push Next</p>
+					<p>Open Command Prompt / Terminal</p>
+					<pre style="width: 300px;"><code class="javascript" contenteditable>node --version</code></pre>
+				</section>
+
+				<section>
+					<section>
+						<h2>The Node REPL</h2>
+						<pre style="width: 300px;"><code class="javascript" contenteditable data-trim>node</code></pre>
+						<p>read-eval-print loop</p>
+					</section>
+
+					<section>
+						<h2>Run a Node App</h2>
+						<pre style="width: 300px;"><code class="javascript" contenteditable data-trim>node app.js</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Everything is Asynchronous</h2>
+						<p>There is no <code>Thread.Sleep()</code></p>
+						<p>There is <code class="javascript">setTimeout(..)</code></p>
+						<p>Everything takes in a callback to return results</p>
+						<p>Event loop is free to handle other requests</p>
+					</section>
+
+					<section>
+						<h2>Everything is Asynchronous</h2>
+						<ol>
+							<li>Pass in a callback as the last argument to the function</li>
+							<li>The first argument to your callback is an error (if any)</li>
+						</ol>
+						</p>
+
+						<pre><code class="javascript" contenteditable data-trim>
+callTheLib('pass','parameters', function (err, results) {
+	if (err) {
+		throw err; // Bad things happened
+	}
+	// It worked
+});
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Hello Web Server</h2>
+						<p>Source: <a target="_blank" href="http://nodejs.org/">http://nodejs.org/</a></p>
+						<pre><code class="javascript" contenteditable data-trim>
+var http = require('http');
+var port = process.env.PORT || 1337;
+
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
+}).listen(port);
+
+console.log('Server running at http://127.0.0.1:'+port+'/');
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Module Loading: Core Modules</h2>
+						<p>
+							Load modules into your code using
+							<a target="_blank" href="http://www.commonjs.org/">CommonJS</a> paradigm
+						</p>
+						<p>(synchronous)</p>
+						<pre width="300px;"><code class="javascript" contenteditable data-trim>
+var lib_instance = require('lib_name');
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Module Loading: External Modules</h2>
+						<p>Install package with <code>NPM</code> (Node Package Manager)</p>
+						<pre width="300px;"><code class="javascript" contenteditable data-trim>
+npm install packagename
+						</code></pre>
+						<p>Load modules into your code</p>
+						<pre width="300px;"><code class="javascript" contenteditable data-trim>
+var lib_instance = require('packagename');
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Hello Web Server</h2>
+						<pre><code class="javascript" contenteditable data-trim>
+var http = require('http');
+var port = process.env.PORT || 1337;
+
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
+}).listen(port);
+
+console.log('Server running at http://127.0.0.1:'+port+'/');
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Hello Web Server</h2>
+						<p>Interesting, but not that useful</p>
+						<p>We prefer web frameworks</p>
+						<p>Enter Express: an MVC framework for Node</p>
+					</section>
+
+					<section>
+						<h2>Hello Express</h2>
+						<p>Source: <a target="_blank" href="http://expressjs.com/guide.html">http://expressjs.com/guide.html</a></p>
+						<pre><code class="javascript" contenteditable data-trim>
+npm install -g express
+express myapp
+cd myapp
+npm install
+node app.js
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Command-line tools with Node</h2>
+						<p><a target="_blank" href="http://www.jshint.com/">JSHint</a>: detect errors in JavaScript code</p>
+						<p><a target="_blank" href="http://gruntjs.com/">Grunt</a>: a JavaScript build tool</p>
+					</section>
+
+					<section>
+						<h2>Debugging Node Apps</h2>
+						<p>
+							<a target="_blank" href="https://github.com/node-inspector/node-inspector">node-inspector</a>:
+							Uses Google Developer Tools to attach to Node's V8 engine.
+						</p>
+						<p><small>
+								Tutorials: <a target="_blank" href="http://www.youtube.com/watch?v=HJOH0-g8f6E&list=PLA5216AC29A41EFA8">here</a> and <a target="_blank" href="http://erickrdch.com/2012/09/debug-a-nodejs-app-with-chrome-dev-tools.html">here</a>.
+						</small></p>
+						<p>
+							<a target="_blank" href="http://www.jetbrains.com/webstorm/">WebStorm</a>: an HTML5/CSS/JavaScript IDE by JetBrains
+						</p>
+						<p><small>
+							Tutorials: <a target="_blank" href="http://www.jetbrains.com/webstorm/webhelp/running-and-debugging-node-js.html#d40327e701">here</a> and <a target="_blank" href="http://www.youtube.com/watch?v=6bKsDoFj83o">here</a>.
+						</small></p>
+					</section>
+				</section>
+
+				<section>
+
+					<h2>Glossary of .NET and Node.js</h2>
+
+					<table style="width:100%;">
+						<thead>
+							<tr>
+								<th class="right">.NET</th>
+								<th>Node</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="right">Windows</td>
+								<td>Windows, *nix</td>
+							</tr>
+							<tr>
+								<td class="right">IIS</td>
+								<td><a target="_blank" href="http://nodejs.org/">Node.exe</a></td>
+							</tr>
+							<tr>
+								<td class="right">ASP.NET</td>
+								<td><a target="_blank" href="http://nodejs.org/api/modules.html">Node Core Modules</a></td>
+							</tr>
+							<tr>
+								<td class="right">ASP.NET MVC</td>
+								<td><a target="_blank" href="http://expressjs.com/">Express</a> <small>(Like Sinatra)</small></td>
+							</tr>
+							<tr>
+								<td class="right">Razor</td>
+								<td><a target="_blank" href="http://jade-lang.com/">Jade</a></td>
+							</tr>
+							<tr>
+								<td class="right">NuGet</td>
+								<td><a target="_blank" href="https://npmjs.org/">NPM</a> <small>(Installed with Node)</small></td>
+							</tr>
+							<tr>
+								<td class="right">SignalR</td>
+								<td><a target="_blank" href="http://socket.io/">Socket.io</a></td>
+							</tr>
+							<tr>
+								<td class="right">Visual Studio</td>
+								<td>
+									<a target="_blank" href="http://www.jetbrains.com/webstorm/">WebStorm</a> or<br />
+									<a target="_blank" href="http://www.sublimetext.com/3">Sublime Text</a> or vi
+								</td>
+							</tr>
+							<tr>
+								<td class="right">C#</td>
+								<td>JavaScript</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+				<section>
+					<h1>Questions?</h1>
+					<p><a target="_blank" href="http://twitter.com/rob_rich">@rob_rich</a></p>
+					<p><a target="_blank" href="http://robrich.org/">http://robrich.org/</a></p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			Reveal.initialize({
+				history: true,
+				theme: 'moon'
+			});
+		</script>
+
+	</body>
+</html>

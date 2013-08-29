@@ -1,0 +1,20 @@
+REM get node-inspector module
+npm install node-inspector
+REM sadly npm exits the shell so we can't run this as a batch file
+
+REM start the process we'll debug:
+node --debug "..\..\2. hello web server\start\app.js"
+
+REM start a new shell and continue:
+REM start node inspector
+node_modules\.bin\node-inspector
+
+REM start your browser at the debug url
+start http://localhost:8080/debug?port=5858
+REM this port is not the port of the node web server
+REM this is the port of the node debugger
+
+REM now set some breakpoints
+
+REM start the website (run the node process) so it'll hit the breakpoints
+start http://localhost:8001/
